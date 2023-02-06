@@ -1,5 +1,6 @@
 package com.DockerExampleMondoDB.Service;
 
+import com.DockerExampleMondoDB.Entity.Address;
 import com.DockerExampleMondoDB.Entity.Student;
 import com.DockerExampleMondoDB.Repository.StudentRepository;
 import lombok.AllArgsConstructor;
@@ -25,21 +26,18 @@ public class StudentServiceImpl implements StudentService {
 
         if (optionalStudent.isPresent()) {
             Student studentUpdate = optionalStudent.get();
-            studentUpdate.setId(student.getId());
             studentUpdate.setFirstName(student.getFirstName());
             studentUpdate.setLastName(student.getLastName());
             studentUpdate.setEmail(student.getEmail());
-            studentUpdate.setGender(student.getGender());
             studentUpdate.setAddress(student.getAddress());
             studentUpdate.setFavouriteSubjects(student.getFavouriteSubjects());
             studentUpdate.setTotalSpentInBooks(student.getTotalSpentInBooks());
-            return studentUpdate;
+            return studentRepository.save(studentUpdate);
         } else {
             System.out.println("E-mail kayıdı bulunamadı. Email :" + student.getEmail());
         }
-        return null;
+        return student;
     }
-
     @Override
     public List<Student> getAllStudent() {
         return studentRepository.findAll();
@@ -54,6 +52,5 @@ public class StudentServiceImpl implements StudentService {
         }else {
             System.out.println("İlgili e-maile ait kayıt bulunamadı.");
         }
-
     }
 }
